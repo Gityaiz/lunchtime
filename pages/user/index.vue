@@ -43,8 +43,8 @@
 </template>
 
 <script>
-import firebase from '../../plugins/firebase.js'
 import { mapGetters, mapActions } from 'vuex'
+import firebase from '../../plugins/firebase.js'
 export default {
   middleware: 'must-be-authenticated',
   data () {

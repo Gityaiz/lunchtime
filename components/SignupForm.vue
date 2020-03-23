@@ -8,8 +8,8 @@
       offset-md="3"
     >
       <v-card
-        color="blue-grey darken-2"
         :class="`d-flex align-center .col-md-6 .offset-md-3`"
+        color="blue-grey darken-2"
       >
         <v-layout column wrap>
           <v-flex pt-3 pb-3 pl-5 pr-5 ma-3>
@@ -83,7 +83,6 @@ export default {
   },
   methods: {
     signupWithEmail (username, password, confirmPassword) {
-      console.log(process.env.API_KEY)
       if (username === '' || password === '' || confirmPassword === '') {
         this.$emit('failed', 'any is blank')
         return

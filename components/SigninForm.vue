@@ -10,7 +10,7 @@
       <v-card
         color="blue-grey darken-2 d-flex"
         align-center
-        >
+      >
         <v-layout column wrap>
           <v-flex pt-3 pb-3 pl-5 pr-5 ma-3>
             <v-card-title class="headline">

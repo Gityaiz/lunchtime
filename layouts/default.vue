@@ -59,8 +59,8 @@
 </template>
 
 <script>
-import firebase from '~/plugins/firebase.js'
 import { mapGetters, mapActions } from 'vuex'
+import firebase from '~/plugins/firebase.js'
 export default {
   data () {
     return {
@@ -75,6 +75,24 @@ export default {
         }
       ],
       title: 'ランチ'
+    }
+  },
+  computed: {
+    ...mapGetters('auth', [
+      'email'
+    ]),
+    ...mapGetters('snackbar', [
+      'message',
+      'status'
+    ]),
+    // snackbarが自動でfalseに設定するためセッタを用意して、明示的にdispatchからOffするようにする
+    snackbarVisible: {
+      get () {
+        return this.status
+      },
+      set () {
+        this.snackOff()
+      }
     }
   },
   methods: {
@@ -94,24 +112,6 @@ export default {
             this.snackOn()
             this.$router.push({ path: '/' })
           })
-      }
-    }
-  },
-  computed: {
-    ...mapGetters('auth', [
-      'email'
-    ]),
-    ...mapGetters('snackbar', [
-      'message',
-      'status'
-    ]),
-    // snackbarが自動でfalseに設定するためセッタを用意して、明示的にdispatchからOffするようにする
-    snackbarVisible: {
-      get () {
-        return this.status
-      },
-      set () {
-        this.snackOff()
       }
     }
   }
