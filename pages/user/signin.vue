@@ -6,8 +6,8 @@
   </v-layout>
 </template>
 <script>
-import SigninForm from '../../components/SigninForm.vue'
 import { mapGetters, mapActions } from 'vuex'
+import SigninForm from '../../components/SigninForm.vue'
 export default {
   components: {
     SigninForm

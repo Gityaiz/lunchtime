@@ -6,8 +6,8 @@
   </v-layout>
 </template>
 <script>
-import SignupForm from '../../components/SignupForm.vue'
 import { mapActions } from 'vuex'
+import SignupForm from '../../components/SignupForm.vue'
 export default {
   components: {
     SignupForm
