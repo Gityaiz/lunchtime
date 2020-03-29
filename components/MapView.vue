@@ -1,0 +1,68 @@
+<template>
+  <v-layout row justify-center align-center>
+    <GmapMap
+      :center="{lat: map.center.lat, lng: map.center.lng}"
+      :zoom="map.zoom"
+      map-type-id="terrain"
+      :style="map.style"
+    >
+      <GmapInfoWindow
+        :options="infoOptions"
+        :position="infoWindowPos"
+        :opened="infoWinOpen"
+        @closeclick="infoWinOpen=false"
+      >
+        {{infoText}}
+      </GmapInfoWindow>
+      <GmapMarker
+        :key="index"
+        v-for="(m, index) in markers"
+        :position="m.position"
+        :clickable="true"
+        :draggable="true"
+        @click="toggleInfoWindow(m)"
+      />
+    </GmapMap>
+  </v-layout>
+</template>
+
+<script>
+import { gmapApi } from 'vue2-google-maps'
+export default {
+  props: {
+    markers: {
+      type: Array,
+      default: () => ([
+        { position: { lat: 35.658584, lng: 139.7454316 }, zoom: 15, info: 'merker no info' }
+      ])
+    },
+    map: Object,
+    default: () => ({
+      center: { lat: 35.658584, lng: 139.7454316 }
+    })
+  },
+  data () {
+    return {
+      infoWindowPos: null, // 場所
+      infoWinOpen: false, // 表示フラグ
+      infoOptions: { // マーカー表示オプション
+        pixelOffset: {
+          width: 0,
+          height: -35
+        }
+      },
+      infoText: null
+    }
+  },
+  computed: {
+    google: gmapApi
+  },
+  methods: {
+    toggleInfoWindow (marker) {
+      this.infoWindowPos = marker.position
+      this.infoWinOpen = true
+      this.infoText = marker.info
+    }
+  }
+}
+</script>
