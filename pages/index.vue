@@ -10,6 +10,9 @@
 <script>
 import MapView from '../components/MapView.vue'
 export default {
+  components: {
+    MapView
+  },
   data () {
     return {
       map: {
@@ -22,9 +25,6 @@ export default {
         { position: { lat: 35.0, lng: 139.0 }, info: 'infoinfoinfo' }
       ]
     }
-  },
-  components: {
-    MapView
   }
 }
 </script>

@@ -3,8 +3,8 @@
     <GmapMap
       :center="{lat: map.center.lat, lng: map.center.lng}"
       :zoom="map.zoom"
-      map-type-id="terrain"
       :style="map.style"
+      map-type-id="terrain"
     >
       <GmapInfoWindow
         :options="infoOptions"
@@ -12,7 +12,7 @@
         :opened="infoWinOpen"
         @closeclick="infoWinOpen=false"
       >
-        {{infoText}}
+        {{ infoText }}
       </GmapInfoWindow>
       <GmapMarker
         :key="index"
@@ -36,10 +36,12 @@ export default {
         { position: { lat: 35.658584, lng: 139.7454316 }, zoom: 15, info: 'merker no info' }
       ])
     },
-    map: Object,
-    default: () => ({
-      center: { lat: 35.658584, lng: 139.7454316 }
-    })
+    map: {
+      type: Object,
+      default: () => ({
+        center: { lat: 35.658584, lng: 139.7454316 }
+      })
+    }
   },
   data () {
     return {
