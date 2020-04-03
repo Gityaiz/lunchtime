@@ -4,6 +4,8 @@
       :map="map"
       :markers="markers"
     />
+    {{ this.map.center.lat}}
+    {{ this.map.center.lng}}
   </v-container>
 </template>
 
@@ -18,12 +20,23 @@ export default {
       map: {
         center: { lat: 35.696096, lng: 139.776776 },
         zoom: 15,
-        style: 'width: 100vw; height: 80vh'
+        style: 'width: 100vw; height: 100vh'
       },
       markers: [
         { position: { lat: 35.696096, lng: 139.776776 }, info: 'infoinfoinfo' },
         { position: { lat: 35.0, lng: 139.0 }, info: 'infoinfoinfo' }
       ]
+    }
+  },
+  async mounted () {
+    if (!navigator.geolocation) {
+      // 現在位置を取得できない場合はデフォルトのmapオブジェクトをそのまま使用する
+    } else {
+      // 現在位置をマップの中央にセット
+      await navigator.geolocation.getCurrentPosition((position) => {
+        this.map.center.lat = position.coords.latitude
+        this.map.center.lng = position.coords.longitude
+      })
     }
   }
 }
