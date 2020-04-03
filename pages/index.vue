@@ -4,8 +4,6 @@
       :map="map"
       :markers="markers"
     />
-    {{ this.map.center.lat}}
-    {{ this.map.center.lng}}
   </v-container>
 </template>
 
@@ -20,7 +18,7 @@ export default {
       map: {
         center: { lat: 35.696096, lng: 139.776776 },
         zoom: 15,
-        style: 'width: 100vw; height: 100vh'
+        style: 'width: 100vw; height: 80vh'
       },
       markers: [
         { position: { lat: 35.696096, lng: 139.776776 }, info: 'infoinfoinfo' },

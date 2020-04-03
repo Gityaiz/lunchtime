@@ -46,7 +46,6 @@ export const mutations = {
   initializeState (state, value) {
 
   }
-
 }
 
 export const actions = {
