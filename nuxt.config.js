@@ -1,7 +1,7 @@
 import colors from 'vuetify/es5/util/colors'
 
 require('dotenv').config();
-const { API_KEY, PROJECTID, DATABASE_URL } = process.env;
+const { API_KEY, PROJECTID, DATABASE_URL, STORAGE_BUCKET } = process.env;
 
 export default {
   mode: 'spa',
@@ -105,6 +105,7 @@ export default {
   env: {
     API_KEY,
     PROJECTID,
-    DATABASE_URL
+    DATABASE_URL,
+    STORAGE_BUCKET
   }
 }
