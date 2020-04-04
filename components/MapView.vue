@@ -3,6 +3,7 @@
     <GmapMap
       :center="{lat: map.center.lat, lng: map.center.lng}"
       :zoom="map.zoom"
+      @click="clickedOnMap($event)"
       :style="map.style"
       map-type-id="terrain"
     >
@@ -33,13 +34,15 @@ export default {
     markers: {
       type: Array,
       default: () => ([
-        { position: { lat: 35.658584, lng: 139.7454316 }, zoom: 15, info: 'merker no info' }
+        { position: { lat: 35.658584, lng: 139.7454316 }, info: 'merker no info' }
       ])
     },
     map: {
       type: Object,
       default: () => ({
-        center: { lat: 35.658584, lng: 139.7454316 }
+        center: { lat: 35.658584, lng: 139.7454316 },
+        zoom: 15,
+        style: 'width: 100vw; height: 80vh'
       })
     }
   },
@@ -64,6 +67,12 @@ export default {
       this.infoWindowPos = marker.position
       this.infoWinOpen = true
       this.infoText = marker.info
+    },
+    clickedOnMap (event) {
+      this.markers.push({
+        position: { lat: event.latLng.lat(), lng: event.latLng.lng(), info: '' }
+      })
+      this.$emit('clickedOnMap', { lat: event.latLng.lat(), lng: event.latLng.lng() })
     }
   }
 }

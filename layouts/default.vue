@@ -52,9 +52,8 @@
     >
       {{ message }}
     </v-snackbar>
-    <v-container fluid>
-      <router-view />
-    </v-container>
+    <router-view
+    />
   </v-app>
 </template>
 

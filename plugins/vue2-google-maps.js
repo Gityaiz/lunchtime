@@ -7,6 +7,7 @@ Vue.use(VueGoogleMaps, {
     libraries: 'places',
     region: 'JP',
     language: 'ja'
-  }
+  },
+  autobindAllEvents: false
 })
 Vue.config.productionTip = false

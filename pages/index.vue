@@ -1,10 +1,23 @@
 <template>
-  <v-container fluid>
-    <map-view
-      :map="map"
-      :markers="markers"
-    />
-  </v-container>
+  <v-content>
+    <v-layout fluid>
+      <v-card>
+        <map-view
+          :map="map"
+          :markers="markers"
+          @clickedOnMap="clickedOnMap"
+        />
+        <v-btn
+          v-if="btnShow"
+          block
+          color="blue-grey"
+          @click="setDefaultView()"
+        >
+          地図を最大表示に戻す
+        </v-btn>
+      </v-card>
+    </v-layout>
+  </v-content>
 </template>
 
 <script>
@@ -18,12 +31,13 @@ export default {
       map: {
         center: { lat: 35.696096, lng: 139.776776 },
         zoom: 15,
-        style: 'width: 100vw; height: 80vh'
+        style: 'width: 100vw; height: 90vh'
       },
       markers: [
         { position: { lat: 35.696096, lng: 139.776776 }, info: 'infoinfoinfo' },
         { position: { lat: 35.0, lng: 139.0 }, info: 'infoinfoinfo' }
-      ]
+      ],
+      btnShow: false
     }
   },
   async mounted () {
@@ -35,6 +49,17 @@ export default {
         this.map.center.lat = position.coords.latitude
         this.map.center.lng = position.coords.longitude
       })
+    }
+  },
+  methods: {
+    clickedOnMap (center) {
+      this.map.style = 'width: 100vw; height: 30vh'
+      this.map.center = center
+      this.btnShow = true
+    },
+    setDefaultView () {
+      this.map.style = 'width: 100vw; height: 90vh'
+      this.btnShow = false
     }
   }
 }

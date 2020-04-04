@@ -7,10 +7,6 @@ const config = {
   projectId: process.env.PROJECTID,
   storageBucket: process.env.STORAGE_BUCKET
 }
-console.log('aaaaaaaaa', process.env.API_KEY)
-console.log('aaaaaaaaa', process.env.DATABASE_URL)
-console.log('aaaaaaaaa', process.env.PROJECTID)
-console.log('aaaaaaaaa', process.env.STORAGE_BUCKET)
 
 firebase.initializeApp(config)
 

@@ -7,6 +7,7 @@
 </template>
 <script>
 import SigninForm from '../../components/SigninForm.vue'
+import firebase from '../../plugins/firebase'
 import { mapGetters, mapActions } from 'vuex'
 export default {
   components: {
@@ -30,28 +31,24 @@ export default {
       this.setName('名無し')
       this.setEmail(data.user.email)
       this.setFireID(data.user.uid)
-      // // ここでユーザー情報を取得する
-      // return firebase.firestore().collection('users').doc(this.fireid)
-      //   .get()
-      //   .then((doc) => {
-      //     console.log(doc)
-      //     if (doc.id) {
-      //       const userInfos = doc.data()
-      //       this.setName(userInfos.name)
-      //       this.setProfileImage(userInfos.profileImage)
-      //       this.setMessage('ログインに成功しました')
-      //       this.snackOn()
-      //       // rootページに遷移
-      //       this.$router.push({ path: '/' })
-      //     } else {
-      //       // doc.data() will be undefined in this case
-      //       this.setMessage('エラーが発生しました')
-      //       this.snackOn()
-      //     }
-      //   })
-      this.snackOn()
-      this.setMessage('ログインに成功しました')
-      this.$router.push({ path: '/' })
+      // ここでユーザー情報を取得する
+      return firebase.firestore().collection('users').doc(this.fireid)
+        .get()
+        .then((doc) => {
+          if (doc.id) {
+            const userInfos = doc.data()
+            this.setName(userInfos.name)
+            this.setProfileImage(userInfos.profileImage)
+            this.setMessage('ログインに成功しました')
+            this.snackOn()
+            // rootページに遷移
+            this.$router.push({ path: '/' })
+          } else {
+            // doc.data() will be undefined in this case
+            this.setMessage('エラーが発生しました')
+            this.snackOn()
+          }
+        })
     },
     LoginFailed (data) {
       // dataにサインイン失敗時のエラー内容が入っている
