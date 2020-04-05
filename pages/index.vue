@@ -8,23 +8,33 @@
           @clickedOnMap="clickedOnMap"
         />
         <v-btn
-          v-if="btnShow"
+          v-if="!fullScreenMap"
+          @click="setDefaultView()"
           block
           color="blue-grey"
-          @click="setDefaultView()"
         >
           地図を最大表示に戻す
         </v-btn>
       </v-card>
     </v-layout>
+    <v-container>
+      <post-form
+        v-if="!fullScreenMap"
+        @success="postSuccess"
+        @failed="postFailed"
+      />
+    </v-container>
   </v-content>
 </template>
 
 <script>
 import MapView from '../components/MapView.vue'
+import PostForm from '../components/PostForm.vue'
+import firebase from '../plugins/firebase.js'
 export default {
   components: {
-    MapView
+    MapView,
+    PostForm
   },
   data () {
     return {
@@ -37,8 +47,13 @@ export default {
         { position: { lat: 35.696096, lng: 139.776776 }, info: 'infoinfoinfo' },
         { position: { lat: 35.0, lng: 139.0 }, info: 'infoinfoinfo' }
       ],
-      btnShow: false
+      fullScreenMap: true,
+      test: 'asd'
     }
+  },
+  asyncData (context) {
+    const data = firebase.firestore().collection('maps').get()
+    return { test: data }
   },
   async mounted () {
     if (!navigator.geolocation) {
@@ -55,11 +70,19 @@ export default {
     clickedOnMap (center) {
       this.map.style = 'width: 100vw; height: 30vh'
       this.map.center = center
-      this.btnShow = true
+      this.fullScreenMap = false
     },
     setDefaultView () {
       this.map.style = 'width: 100vw; height: 90vh'
-      this.btnShow = false
+      this.fullScreenMap = true
+    },
+    postSuccess () {
+      this.map.style = 'width: 100vw; height: 90vh'
+      this.fullScreenMap = true
+    },
+    postFailed () {
+      this.map.style = 'width: 100vw; height: 90vh'
+      this.fullScreenMap = true
     }
   }
 }

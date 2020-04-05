@@ -52,8 +52,7 @@
     >
       {{ message }}
     </v-snackbar>
-    <router-view
-    />
+    <router-view />
   </v-app>
 </template>
 
