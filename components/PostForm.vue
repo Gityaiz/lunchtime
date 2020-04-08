@@ -72,6 +72,9 @@ export default {
     ...mapGetters('auth', [
       'fireid'
     ]),
+    ...mapGetters('auth', [
+      'name'
+    ]),
     nameRules () {
       const rules = []
       if (this.nameMaxLength) {
@@ -89,31 +92,45 @@ export default {
         rules.push(rule)
       }
       return rules
-    },
-    // firestoreのドキュメント登録用ラベル
-    fireDocLabel () {
-      const label = 'lat' + this.position.lat.toString() + 'lng' + this.position.lng.toString()
-      return label
     }
   },
   methods: {
     ...mapActions('snackbar', ['snackOn']),
     ...mapActions('snackbar', ['setMessage']),
-    resisterInfo () {
-      firebase.firestore().collection('storeInfos').doc(this.fireDocLabel).collection(this.fireid).doc().set({
-        name: this.store.name,
-        memo: this.store.memo,
-        position: this.position
-      })
-        .then(() => {
-          this.setMessage('情報を登録しました')
-          this.snackOn()
-          this.$emit('success')
-        })
-        .catch(() => {
-          this.setMessage('エラーが発生しました')
-          this.snackOn()
-          this.$emit('failed')
+    async resisterInfo () {
+      const collectionRef = firebase.firestore().collection('storeInfos').where('position.lat', '==', this.position.lat).where('position.lng', '==', this.position.lng)
+
+      await collectionRef.get()
+        .then((querySnapshot) => {
+          if (querySnapshot.empty) {
+            // 該当する位置情報のお店が存在しないので新たにドキュメントを追加する
+            firebase.firestore().collection('storeInfos').doc().set({
+              eval: [
+                { uid: this.fireid, name: this.name, memo: this.store.memo }
+              ],
+              name: this.store.name,
+              position: this.position
+            })
+              .then(() => {
+                this.setMessage('情報を登録しました')
+                this.snackOn()
+                this.$emit('success')
+              })
+              .catch(() => {
+                this.setMessage('新しいお店情報の登録でエラーが発生しました。')
+                this.snackOn()
+                this.$emit('success')
+              })
+          } else {
+            // ドキュメントのevalにお店の評価を追加する
+            console.log('exists')
+            collectionRef.set({
+              eval: [
+                { uid: this.fireid, name: this.name, memo: this.store.memo }
+              ],
+              name: this.store.name
+            }, { merge: true })
+          }
         })
     }
   }

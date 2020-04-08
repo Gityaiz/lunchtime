@@ -21,7 +21,7 @@
         :position="m.position"
         :clickable="true"
         :draggable="true"
-        @click="toggleInfoWindow(m)"
+        @click="toggleInfoWindow"
       />
     </GmapMap>
   </v-layout>
@@ -64,9 +64,11 @@ export default {
   },
   methods: {
     toggleInfoWindow (marker) {
+      // TODO 取得したPinの位置情報にあるお店情報を取得する。（ページロード時に取得しておいて、ページコンポーネント側で表示するのかも？
       this.infoWindowPos = marker.position
       this.infoWinOpen = true
       this.infoText = marker.info
+      this.$emit('clickedOnMap', { lat: marker.latLng.lat(), lng: marker.latLng.lng() })
     },
     clickedOnMap (event) {
       this.markers.push({

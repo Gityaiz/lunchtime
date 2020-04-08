@@ -20,6 +20,7 @@
     <v-container>
       <post-form
         v-if="!fullScreenMap"
+        :position="map.center"
         @success="postSuccess"
         @failed="postFailed"
       />
@@ -44,16 +45,18 @@ export default {
         style: 'width: 100vw; height: 90vh'
       },
       markers: [
-        { position: { lat: 35.696096, lng: 139.776776 }, info: 'infoinfoinfo' },
-        { position: { lat: 35.0, lng: 139.0 }, info: 'infoinfoinfo' }
+        // { position: { lat: 35.696096, lng: 139.776776 }, info: 'infoinfoinfo' },
       ],
       fullScreenMap: true,
       test: 'asd'
     }
   },
-  asyncData (context) {
-    const data = firebase.firestore().collection('maps').get()
-    return { test: data }
+  async asyncData (context) {
+    const querySnapshot = await firebase.firestore().collection('storeInfos').get()
+    const records = querySnapshot.docs.map(elem => elem.data())
+    console.log(records)
+    // TODO 取得したお店の評価一覧recordsを利用してmarkersをセットする
+    return { data: 'data' }
   },
   async mounted () {
     if (!navigator.geolocation) {
@@ -69,6 +72,7 @@ export default {
   methods: {
     clickedOnMap (center) {
       this.map.style = 'width: 100vw; height: 30vh'
+      console.log(center)
       this.map.center = center
       this.fullScreenMap = false
     },
