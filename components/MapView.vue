@@ -62,6 +62,9 @@ export default {
   computed: {
     google: gmapApi
   },
+  mounted () {
+    console.log('aaa', this.markers)
+  },
   methods: {
     toggleInfoWindow (marker) {
       // TODO 取得したPinの位置情報にあるお店情報を取得する。（ページロード時に取得しておいて、ページコンポーネント側で表示するのかも？
@@ -74,6 +77,7 @@ export default {
       this.markers.push({
         position: { lat: event.latLng.lat(), lng: event.latLng.lng(), info: '' }
       })
+      console.log(this.markers)
       this.$emit('clickedOnMap', { lat: event.latLng.lat(), lng: event.latLng.lng() })
     }
   }

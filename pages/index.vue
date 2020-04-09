@@ -44,19 +44,20 @@ export default {
         zoom: 15,
         style: 'width: 100vw; height: 90vh'
       },
-      markers: [
-        // { position: { lat: 35.696096, lng: 139.776776 }, info: 'infoinfoinfo' },
-      ],
-      fullScreenMap: true,
-      test: 'asd'
+      markers: [],
+      fullScreenMap: true
     }
   },
   async asyncData (context) {
     const querySnapshot = await firebase.firestore().collection('storeInfos').get()
     const records = querySnapshot.docs.map(elem => elem.data())
-    console.log(records)
-    // TODO 取得したお店の評価一覧recordsを利用してmarkersをセットする
-    return { data: 'data' }
+    const markers = []
+    if (records.length > 0) {
+      records.forEach((v) => {
+        markers.push({ position: v.position })
+      })
+    }
+    return { markers }
   },
   async mounted () {
     if (!navigator.geolocation) {
