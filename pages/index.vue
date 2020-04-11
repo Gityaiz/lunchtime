@@ -6,6 +6,7 @@
           :map="map"
           :markers="markers"
           @clickedOnMap="clickedOnMap"
+          @clickedOnMarker="clickedOnMap"
         />
         <v-btn
           v-if="!fullScreenMap"
@@ -18,6 +19,13 @@
       </v-card>
     </v-layout>
     <v-container>
+      <reviews-card
+        :key="index"
+        v-for="(m, index) in markers"
+        :title='m.name'
+        :review='m.eval[0].memo'
+        imgSrc='https://cdn.vuetifyjs.com/images/cards/docks.jpg'
+      />
       <post-form
         v-if="!fullScreenMap"
         :position="map.center"
@@ -31,33 +39,34 @@
 <script>
 import MapView from '../components/MapView.vue'
 import PostForm from '../components/PostForm.vue'
+import ReviewsCard from '../components/ReviewsCard.vue'
 import firebase from '../plugins/firebase.js'
 export default {
   components: {
     MapView,
-    PostForm
+    PostForm,
+    ReviewsCard
   },
   data () {
     return {
       map: {
         center: { lat: 35.696096, lng: 139.776776 },
         zoom: 15,
-        style: 'width: 100vw; height: 90vh'
+        style: 'width: 100vw; height: 30vh'
       },
       markers: [],
-      fullScreenMap: true
+      fullScreenMap: false,
+      reviews: {}
     }
   },
+  // asyncDataはpagesコンポーネントでのみ使用できる
   async asyncData (context) {
+    // firebaseのデータfetch
     const querySnapshot = await firebase.firestore().collection('storeInfos').get()
     const records = querySnapshot.docs.map(elem => elem.data())
-    const markers = []
     if (records.length > 0) {
-      records.forEach((v) => {
-        markers.push({ position: v.position })
-      })
+      return { markers: records }
     }
-    return { markers }
   },
   async mounted () {
     if (!navigator.geolocation) {
@@ -72,9 +81,8 @@ export default {
   },
   methods: {
     clickedOnMap (center) {
+      console.log('clickedOnMap > center', center)
       this.map.style = 'width: 100vw; height: 30vh'
-      console.log(center)
-      this.map.center = center
       this.fullScreenMap = false
     },
     setDefaultView () {
