@@ -1,8 +1,10 @@
 <template>
-  <v-layout>
+  <v-layout
+  >
     <v-card
-      class='mx-auto mb-2'
-      width='80vw'
+      class='mb-2'
+      width='100vw'
+      max-width="400px"
     >
       <v-img
         class="white--text align-end"

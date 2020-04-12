@@ -10,7 +10,7 @@
         />
         <v-btn
           v-if="!fullScreenMap"
-          @click="setDefaultView()"
+          @click="setFullscreenMap"
           block
           color="blue-grey"
         >
@@ -18,21 +18,23 @@
         </v-btn>
       </v-card>
     </v-layout>
-    <v-container>
-      <reviews-card
-        :key="index"
-        v-for="(m, index) in markers"
-        :title='m.name'
-        :review='m.eval[0].memo'
-        imgSrc='https://cdn.vuetifyjs.com/images/cards/docks.jpg'
-      />
+    <v-layout>
+      <div v-if="reviewVisible">
+        <reviews-card
+          :key="index"
+          v-for="(m, index) in markers"
+          :title='m.name'
+          :review='m.eval[0].memo'
+          imgSrc='https://cdn.vuetifyjs.com/images/cards/docks.jpg'
+        />
+      </div>
       <post-form
-        v-if="!fullScreenMap"
+        v-if="postFormVisible"
         :position="map.center"
         @success="postSuccess"
         @failed="postFailed"
       />
-    </v-container>
+    </v-layout>
   </v-content>
 </template>
 
@@ -56,6 +58,8 @@ export default {
       },
       markers: [],
       fullScreenMap: false,
+      reviewVisible: true,
+      postFormVisible: false,
       reviews: {}
     }
   },
@@ -84,18 +88,26 @@ export default {
       console.log('clickedOnMap > center', center)
       this.map.style = 'width: 100vw; height: 30vh'
       this.fullScreenMap = false
+      this.reviewVisible = true
+      this.postFormVisible = true
     },
-    setDefaultView () {
+    setFullscreenMap () {
       this.map.style = 'width: 100vw; height: 90vh'
       this.fullScreenMap = true
+      this.reviewVisible = false
+      this.postFormVisible = true
     },
     postSuccess () {
       this.map.style = 'width: 100vw; height: 90vh'
-      this.fullScreenMap = true
+      this.fullScreenMap = false
+      this.reviewVisible = true
+      this.postFormVisible = false
     },
     postFailed () {
       this.map.style = 'width: 100vw; height: 90vh'
-      this.fullScreenMap = true
+      this.fullScreenMap = false
+      this.reviewVisible = true
+      this.postFormVisible = false
     }
   }
 }
