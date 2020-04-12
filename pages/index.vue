@@ -81,7 +81,7 @@ export default {
       this.map.style = 'width: 100vw; height: 30vh'
       this.map.center = center
       this.fullScreenMap = false
-      this.reviewVisible = true
+      this.reviewVisible = false
       this.postFormVisible = true
     },
     setFullscreenMap () {
