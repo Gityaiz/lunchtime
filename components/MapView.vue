@@ -1,29 +1,28 @@
 <template>
-  <v-layout row justify-center align-center>
-    <GmapMap
-      :center="{lat: map.center.lat, lng: map.center.lng}"
-      :zoom="map.zoom"
-      @click="clickedOnMap($event)"
-      :style="map.style"
-      map-type-id="terrain"
+  <GmapMap
+    :center="{lat: map.center.lat, lng: map.center.lng}"
+    :zoom="map.zoom"
+    @click="clickedOnMap($event)"
+    :style="map.style"
+    map-type-id="terrain"
+    :draggable="true"
+  >
+    <GmapInfoWindow
+      :options="infoOptions"
+      :position="infoWindowPos"
+      :opened="infoWinOpen"
+      @closeclick="infoWinOpen=false"
     >
-      <GmapInfoWindow
-        :options="infoOptions"
-        :position="infoWindowPos"
-        :opened="infoWinOpen"
-        @closeclick="infoWinOpen=false"
-      >
-        {{ infoText }}
-      </GmapInfoWindow>
-      <GmapMarker
-        :key="index"
-        v-for="(m, index) in markers"
-        :position="m.position"
-        :clickable="true"
-        @click="clickedOnMarker"
-      />
-    </GmapMap>
-  </v-layout>
+      {{ infoText }}
+    </GmapInfoWindow>
+    <GmapMarker
+      :key="index"
+      v-for="(m, index) in markers"
+      :position="m.position"
+      :clickable="true"
+      @click="clickedOnMarker"
+    />
+  </GmapMap>
 </template>
 
 <script>
@@ -45,7 +44,7 @@ export default {
       default: () => ({
         center: { lat: 35.658584, lng: 139.7454316 },
         zoom: 15,
-        style: 'width: 100vw; height: 80vh'
+        style: 'width: 100vw; height: 100vh'
       })
     }
   },
@@ -63,7 +62,8 @@ export default {
     }
   },
   computed: {
-    google: gmapApi
+    google: gmapApi,
+    fullScreen: () => ('width: 100vw; height: 100vh')
   },
   mounted () {
     console.log('merkers', this.markers)
@@ -77,6 +77,10 @@ export default {
       this.$emit('clickedOnMap', { lat: marker.latLng.lat(), lng: marker.latLng.lng() })
     },
     clickedOnMap (event) {
+      if (this.map.style !== this.fullScreen) {
+        this.map.style = this.fullScreen
+        return
+      }
       this.markers.push({
         position: { lat: event.latLng.lat(), lng: event.latLng.lng() }
       })

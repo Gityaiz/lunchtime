@@ -1,6 +1,6 @@
 <template>
   <v-content>
-    <v-layout fluid>
+    <v-layout fluid class="justify-center">
       <v-card>
         <map-view
           :map="map"
@@ -8,17 +8,9 @@
           @clickedOnMap="clickedOnMap"
           @clickedOnMarker="clickedOnMap"
         />
-        <v-btn
-          v-if="!fullScreenMap"
-          @click="setFullscreenMap"
-          block
-          color="blue-grey"
-        >
-          地図を最大表示に戻す
-        </v-btn>
       </v-card>
     </v-layout>
-    <v-layout>
+    <v-layout fluid class="justify-center">
       <div v-if="reviewVisible">
         <reviews-card
           :key="index"
@@ -87,6 +79,7 @@ export default {
     clickedOnMap (center) {
       console.log('clickedOnMap > center', center)
       this.map.style = 'width: 100vw; height: 30vh'
+      this.map.center = center
       this.fullScreenMap = false
       this.reviewVisible = true
       this.postFormVisible = true
