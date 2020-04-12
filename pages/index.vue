@@ -88,7 +88,7 @@ export default {
       this.map.style = 'width: 100vw; height: 90vh'
       this.fullScreenMap = true
       this.reviewVisible = false
-      this.postFormVisible = true
+      this.postFormVisible = false
     },
     postSuccess () {
       this.map.style = 'width: 100vw; height: 90vh'
