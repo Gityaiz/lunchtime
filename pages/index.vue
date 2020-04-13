@@ -15,9 +15,7 @@
         <reviews-card
           :key="index"
           v-for="(m, index) in markers"
-          :title='m.name'
-          :review='m.eval[0].memo'
-          :imagePath="m.eval[0].imagePath"
+          :review='m'
         />
       </div>
       <post-form
@@ -46,7 +44,7 @@ export default {
       map: {
         center: { lat: 35.696096, lng: 139.776776 },
         zoom: 15,
-        style: 'width: 100vw; height: 30vh'
+        style: 'width: 100vw; height: 60vh'
       },
       markers: [],
       fullScreenMap: false,

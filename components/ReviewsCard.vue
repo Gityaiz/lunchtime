@@ -9,15 +9,19 @@
       <v-img
         class="white--text align-end"
         height="20vh"
-        :src="imagePath"
+        :src="review.eval[0].imagePath"
       >
-        <v-card-title>{{ title }}</v-card-title>
+        <v-card-title>{{ review.name }}</v-card-title>
       </v-img>
-
-      <v-card-text
-        class="text--primary"
-      >
-        <div>{{ review }}</div>
+      <v-card-text>
+        <v-col>
+          <v-row>
+            <div class="text--primary"> {{ review.eval[0].memo }} </div>
+          </v-row>
+          <v-row justify='end'>
+            <p justify='end'>{{ review.eval[0].name }}</p>
+          </v-row>
+        </v-col>
       </v-card-text>
 
       <v-card-actions>
@@ -34,24 +38,26 @@
           <v-icon>mdi-share-variant</v-icon>
         </v-btn>
       </v-card-actions>
-
     </v-card>
   </v-layout>
 </template>
 <script>
 export default {
   props: {
-    title: {
-      type: String,
-      default: () => ('Default title')
-    },
     review: {
-      type: String,
-      default: () => ('good salad')
-    },
-    imagePath: {
-      type: String,
-      default: () => ('https://cdn.vuetifyjs.com/images/cards/docks.jpg')
+      type: Object,
+      default: () => ({
+        eval: [
+          {
+            imagePath: 'https://cdn.vuetifyjs.com/images/cards/docks.jpg',
+            memo: 'default memo',
+            name: 'default writer',
+            uid: 'default uid'
+          }
+        ],
+        name: 'store name',
+        position: { lat: 35.645975156820924, lng: 139.59070195708614 }
+      })
     }
   }
 }
