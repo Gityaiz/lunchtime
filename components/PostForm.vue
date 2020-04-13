@@ -139,6 +139,7 @@ export default {
             }, { merge: true })
           }
         })
+      this.$router.go({ path: this.$router.currentRoute.path, force: true })
     },
     imageUploadSuccess (filepath) {
       this.imageFilePath = filepath
