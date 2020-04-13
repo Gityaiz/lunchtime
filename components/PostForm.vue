@@ -33,6 +33,10 @@
         outlined
         rows="6"
       />
+      <uploadfile-form
+        @success="imageUploadSuccess"
+        @failed="imageUploadFailed"
+      />
       <v-btn
         @click="resisterInfo"
         outlined
@@ -46,6 +50,7 @@
 </template>
 <script>
 import firebase from '../plugins/firebase.js'
+import UploadfileForm from './UploadfileForm'
 import { mapGetters, mapActions } from 'vuex'
 
 export default {
@@ -57,15 +62,18 @@ export default {
       })
     }
   },
+  components: {
+    UploadfileForm
+  },
   data () {
     return {
       store: {
         name: '',
         memo: ''
       },
-      storeName: '',
       nameMaxLength: 30,
-      memoMaxLength: 300
+      memoMaxLength: 300,
+      imageFilePath: ''
     }
   },
   computed: {
@@ -106,7 +114,7 @@ export default {
             // 該当する位置情報のお店が存在しないので新たにドキュメントを追加する
             firebase.firestore().collection('storeInfos').doc().set({
               eval: [
-                { uid: this.fireid, name: this.name, memo: this.store.memo }
+                { uid: this.fireid, name: this.name, memo: this.store.memo, imagePath: this.imageFilePath }
               ],
               name: this.store.name,
               position: this.position
@@ -123,7 +131,6 @@ export default {
               })
           } else {
             // ドキュメントのevalにお店の評価を追加する
-            console.log('exists')
             collectionRef.set({
               eval: [
                 { uid: this.fireid, name: this.name, memo: this.store.memo }
@@ -132,6 +139,17 @@ export default {
             }, { merge: true })
           }
         })
+    },
+    imageUploadSuccess (filepath) {
+      this.imageFilePath = filepath
+      console.log('ファイルパス', this.imageFilePath)
+      this.setMessage('画像アップロードに成功しました')
+      this.snackOn()
+    },
+    imageUploadFailed (error) {
+      console.log(error)
+      this.setMessage('画像アップロードに失敗しました')
+      this.snackOn()
     }
   }
 }

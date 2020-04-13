@@ -17,7 +17,7 @@
           v-for="(m, index) in markers"
           :title='m.name'
           :review='m.eval[0].memo'
-          imgSrc='https://cdn.vuetifyjs.com/images/cards/docks.jpg'
+          :imagePath="m.eval[0].imagePath"
         />
       </div>
       <post-form
@@ -61,6 +61,7 @@ export default {
     const querySnapshot = await firebase.firestore().collection('storeInfos').get()
     const records = querySnapshot.docs.map(elem => elem.data())
     if (records.length > 0) {
+      console.log('rec >', records)
       return { markers: records }
     }
   },

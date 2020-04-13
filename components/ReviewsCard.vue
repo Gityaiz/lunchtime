@@ -9,7 +9,7 @@
       <v-img
         class="white--text align-end"
         height="20vh"
-        :src="imgSrc"
+        :src="imagePath"
       >
         <v-card-title>{{ title }}</v-card-title>
       </v-img>
@@ -49,7 +49,7 @@ export default {
       type: String,
       default: () => ('good salad')
     },
-    imgSrc: {
+    imagePath: {
       type: String,
       default: () => ('https://cdn.vuetifyjs.com/images/cards/docks.jpg')
     }
