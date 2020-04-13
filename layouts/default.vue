@@ -4,8 +4,15 @@
       color="grey lighten-4"
       flat
       tile
+      bottom
     >
-      <v-toolbar>
+      <v-app-bar
+        dense
+        flat
+        hide-on-scroll
+        src='https://firebasestorage.googleapis.com/v0/b/lunchtime-51fc8.appspot.com/o/lunch-app-bar.jpeg?alt=media&token=21c4c823-ee77-4445-92c8-f4ec312215f0'
+      >
+        <v-app-bar-nav-icon />
         <v-toolbar-title>
           <router-link to="/" class="toolbar-font">
             {{ title }}
@@ -44,7 +51,7 @@
             </v-list-item>
           </v-list>
         </v-menu>
-      </v-toolbar>
+      </v-app-bar>
     </v-card>
     <v-snackbar
       v-model="snackbarVisible"
