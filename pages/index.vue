@@ -1,24 +1,18 @@
 <template>
-  <v-content>
-    <v-layout fluid class="justify-center">
-      <v-card>
-        <map-view
-          :map="map"
-          :markers="markers"
-          @clickedOnMap="clickedOnMap"
-          @clickedMarker="clickedMarker"
-        />
-      </v-card>
-    </v-layout>
-    <v-layout fluid class="justify-center">
-      <post-form
-        v-if="postFormVisible"
-        :position="map.center"
-        @success="postSuccess"
-        @failed="postFailed"
-      />
-    </v-layout>
-  </v-content>
+  <v-card>
+    <map-view
+      :map="map"
+      :markers="markers"
+      @clickedOnMap="clickedOnMap"
+      @clickedMarker="clickedMarker"
+    />
+    <post-form
+      v-if="postFormVisible"
+      :position="map.center"
+      @success="postSuccess"
+      @failed="postFailed"
+    />
+  </v-card>
 </template>
 
 <script>

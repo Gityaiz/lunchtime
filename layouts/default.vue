@@ -1,12 +1,9 @@
 <template>
   <v-app dark>
-    <v-snackbar
-      v-model="snackbarVisible"
-      top
-    >
+    <router-view />
+    <v-snackbar v-model="snackbarVisible" top >
       {{ message }}
     </v-snackbar>
-    <router-view />
     <v-bottom-navigation
       :value="activeBtn"
       :v-model="bottomNav"
