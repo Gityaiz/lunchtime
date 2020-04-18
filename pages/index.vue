@@ -6,18 +6,11 @@
           :map="map"
           :markers="markers"
           @clickedOnMap="clickedOnMap"
-          @clickedOnMarker="clickedOnMap"
+          @clickedMarker="clickedMarker"
         />
       </v-card>
     </v-layout>
     <v-layout fluid class="justify-center">
-      <div v-if="reviewVisible">
-        <reviews-card
-          :key="index"
-          v-for="(m, index) in markers"
-          :review='m'
-        />
-      </div>
       <post-form
         v-if="postFormVisible"
         :position="map.center"
@@ -31,26 +24,26 @@
 <script>
 import MapView from '../components/MapView.vue'
 import PostForm from '../components/PostForm.vue'
-import ReviewsCard from '../components/ReviewsCard.vue'
 import firebase from '../plugins/firebase.js'
 export default {
   components: {
     MapView,
-    PostForm,
-    ReviewsCard
+    PostForm
+  },
+  computed: {
+    fullScreen: () => ('width: 100vw; height: 95vh')
   },
   data () {
     return {
       map: {
         center: { lat: 35.696096, lng: 139.776776 },
         zoom: 15,
-        style: 'width: 100vw; height: 100vh'
+        style: 'width: 100vw; height: 95vh'
       },
       markers: [],
       fullScreenMap: false,
       reviewVisible: true,
-      postFormVisible: false,
-      reviews: {}
+      postFormVisible: false
     }
   },
   // asyncDataはpagesコンポーネントでのみ使用できる
@@ -76,27 +69,33 @@ export default {
   },
   methods: {
     clickedOnMap (center) {
-      console.log('clickedOnMap > center', center)
       this.map.style = 'width: 100vw; height: 30vh'
       this.map.center = center
       this.fullScreenMap = false
       this.reviewVisible = false
       this.postFormVisible = true
     },
+    clickedMarker (store) {
+      this.map.style = 'width: 100vw; height: 30vh'
+      this.map.center = store.position
+      this.fullScreenMap = false
+      this.reviewVisible = true
+      this.postFormVisible = false
+    },
     setFullscreenMap () {
-      this.map.style = 'width: 100vw; height: 90vh'
+      this.map.style = this.fullScreen
       this.fullScreenMap = true
       this.reviewVisible = false
       this.postFormVisible = false
     },
     postSuccess () {
-      this.map.style = 'width: 100vw; height: 90vh'
+      this.map.style = this.fullScreen
       this.fullScreenMap = false
       this.reviewVisible = true
       this.postFormVisible = false
     },
     postFailed () {
-      this.map.style = 'width: 100vw; height: 90vh'
+      this.map.style = this.fullScreen
       this.fullScreenMap = false
       this.reviewVisible = true
       this.postFormVisible = false

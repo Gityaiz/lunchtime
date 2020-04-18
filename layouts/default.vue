@@ -1,58 +1,5 @@
 <template>
   <v-app dark>
-    <v-card
-      color="grey lighten-4"
-      flat
-      tile
-      bottom
-    >
-      <v-app-bar
-        dense
-        flat
-        hide-on-scroll
-        src='https://firebasestorage.googleapis.com/v0/b/lunchtime-51fc8.appspot.com/o/lunch-app-bar.jpeg?alt=media&token=21c4c823-ee77-4445-92c8-f4ec312215f0'
-      >
-        <v-app-bar-nav-icon />
-        <v-toolbar-title>
-          <router-link to="/" class="toolbar-font">
-            {{ title }}
-          </router-link>
-        </v-toolbar-title>
-        <v-spacer />
-        <router-link
-          v-if="email == ''"
-          to="/user/signin"
-          class="toolbar-font"
-        >
-          ログイン
-        </router-link>
-        <v-menu
-          v-if="email != ''"
-        >
-          <template v-slot:activator="{ on }">
-            <v-btn
-              v-on="on"
-              text
-              depressed
-              class="toolbar-font"
-            >
-              {{ email }}
-            </v-btn>
-          </template>
-          <v-list>
-            <v-list-item
-              v-for="(item, i) in userItems"
-              :key="i"
-              @click="userMenu(item.title)"
-            >
-              <v-list-item-title>
-                {{ item.title }}
-              </v-list-item-title>
-            </v-list-item>
-          </v-list>
-        </v-menu>
-      </v-app-bar>
-    </v-card>
     <v-snackbar
       v-model="snackbarVisible"
       top
@@ -60,26 +7,37 @@
       {{ message }}
     </v-snackbar>
     <router-view />
+    <v-bottom-navigation
+      :value="activeBtn"
+      :v-model="bottomNav"
+      color="primary"
+      fixed
+      grow
+      height='5vh'
+    >
+      <v-btn v-for="menu in menus" :key="menu.title" :to="menu.to">
+        <span>{{ menu.title }}</span>
+        <v-icon>{{ menu.icon }}</v-icon>
+      </v-btn>
+
+    </v-bottom-navigation>
   </v-app>
 </template>
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import firebase from '~/plugins/firebase.js'
+// import firebase from '~/plugins/firebase.js'
 export default {
   data () {
     return {
       isSnackbar: false,
-      userItems: [
-        {
-          title: 'ユーザーページ',
-          link: '/user'
-        },
-        {
-          title: 'ログアウト'
-        }
-      ],
-      title: 'ランチ'
+      activeBtn: 0, // bottom-nav active {0, 1, 2},
+      bottomNav: 0,
+      menus: [
+        { title: 'map', icon: 'mdi-map-marker', to: '/' },
+        { title: 'reviews', icon: 'mdi-heart', to: '/evals' },
+        { title: 'user', icon: 'mdi-face', to: '/user' }
+      ]
     }
   },
   computed: {
@@ -104,21 +62,7 @@ export default {
     ...mapActions('auth', ['setLogOut']),
     ...mapActions('snackbar', ['snackOn']),
     ...mapActions('snackbar', ['snackOff']),
-    ...mapActions('snackbar', ['setMessage']),
-    userMenu (selectedMenu) {
-      if (selectedMenu === 'ユーザーページ') {
-        this.$router.push({ path: '/user' })
-      }
-      if (selectedMenu === 'ログアウト') {
-        firebase.auth().signOut()
-          .then((data) => {
-            this.setLogOut()
-            this.setMessage('ログアウトしました')
-            this.snackOn()
-            this.$router.push({ path: '/' })
-          })
-      }
-    }
+    ...mapActions('snackbar', ['setMessage'])
   }
 }
 </script>

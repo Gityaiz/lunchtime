@@ -4,8 +4,8 @@
     :zoom="map.zoom"
     @click="clickedOnMap($event)"
     :style="map.style"
-    map-type-id="terrain"
     :draggable="true"
+    map-type-id="terrain"
   >
     <GmapInfoWindow
       :options="infoOptions"
@@ -21,6 +21,10 @@
       :position="m.position"
       :clickable="true"
       @click="clickedOnMarker"
+    />
+    <GmapMarker
+      :v-if="activeMarker!={}"
+      :position="activeMarker.position"
     />
   </GmapMap>
 </template>
@@ -58,7 +62,8 @@ export default {
           height: -35
         }
       },
-      infoText: null
+      infoText: null,
+      activeMarker: {}
     }
   },
   computed: {
@@ -70,20 +75,23 @@ export default {
   },
   methods: {
     clickedOnMarker (marker) {
-      // TODO 取得したPinの位置情報にあるお店情報を取得する。（ページロード時に取得しておいて、ページコンポーネント側で表示するのかも？
-      this.infoWindowPos = marker.position
+      // 渡されるmarkerはライブラリからの戻り値でmarkersに入っているオブジェクトとは異なるので
+      // markersの中から該当するオブジェクトを検索する
+      const clickedStore = this.markers.find(item =>
+        item.position.lat === marker.latLng.lat() && item.position.lng === marker.latLng.lng()
+      )
+      this.infoWindowPos = clickedStore.position
       this.infoWinOpen = true
-      this.infoText = marker.name
-      this.$emit('clickedOnMap', { lat: marker.latLng.lat(), lng: marker.latLng.lng() })
+      this.infoText = clickedStore.name
+      this.$emit('clickedMarker', clickedStore)
     },
     clickedOnMap (event) {
+      // フルスクリーン状態でない場合でクリックされたときはフルスクリーンに変更するのみ
       if (this.map.style !== this.fullScreen) {
         this.map.style = this.fullScreen
         return
       }
-      this.markers.push({
-        position: { lat: event.latLng.lat(), lng: event.latLng.lng() }
-      })
+      this.activeMarker = { position: { lat: event.latLng.lat(), lng: event.latLng.lng() } }
       this.$emit('clickedOnMap', { lat: event.latLng.lat(), lng: event.latLng.lng() })
     }
   }
