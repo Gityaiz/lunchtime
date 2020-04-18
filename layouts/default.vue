@@ -12,8 +12,9 @@
       :v-model="bottomNav"
       color="primary"
       fixed
+      bottom
       grow
-      height="5vh"
+      height="10vh"
     >
       <v-btn v-for="menu in menus" :key="menu.title" :to="menu.to">
         <span>{{ menu.title }}</span>
