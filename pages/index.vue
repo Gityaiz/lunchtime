@@ -44,7 +44,7 @@ export default {
       map: {
         center: { lat: 35.696096, lng: 139.776776 },
         zoom: 15,
-        style: 'width: 100vw; height: 60vh'
+        style: 'width: 100vw; height: 100vh'
       },
       markers: [],
       fullScreenMap: false,
