@@ -54,6 +54,9 @@ import UploadfileForm from './UploadfileForm'
 import { mapGetters, mapActions } from 'vuex'
 
 export default {
+  components: {
+    UploadfileForm
+  },
   props: {
     position: {
       type: Object,
@@ -61,9 +64,6 @@ export default {
         lat: 35.658584, lng: 139.7454316
       })
     }
-  },
-  components: {
-    UploadfileForm
   },
   data () {
     return {
@@ -143,12 +143,10 @@ export default {
     },
     imageUploadSuccess (filepath) {
       this.imageFilePath = filepath
-      console.log('ファイルパス', this.imageFilePath)
       this.setMessage('画像アップロードに成功しました')
       this.snackOn()
     },
-    imageUploadFailed (error) {
-      console.log(error)
+    imageUploadFailed () {
       this.setMessage('画像アップロードに失敗しました')
       this.snackOn()
     }

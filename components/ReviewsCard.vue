@@ -1,25 +1,28 @@
 <template>
-  <v-layout
-  >
+  <v-layout>
     <v-card
-      class='mb-2'
-      width='100vw'
+      class="mb-2"
+      width="100vw"
       max-width="400px"
     >
       <v-img
+        :src="review.eval[0].imagePath"
         class="white--text align-end"
         height="20vh"
-        :src="review.eval[0].imagePath"
       >
         <v-card-title>{{ review.name }}</v-card-title>
       </v-img>
       <v-card-text>
         <v-col>
           <v-row>
-            <div class="text--primary"> {{ review.eval[0].memo }} </div>
+            <div class="text--primary">
+              {{ review.eval[0].memo }}
+            </div>
           </v-row>
-          <v-row justify='end'>
-            <p justify='end'>{{ review.eval[0].name }}</p>
+          <v-row justify="end">
+            <p justify="end">
+              {{ review.eval[0].name }}
+            </p>
           </v-row>
         </v-col>
       </v-card-text>

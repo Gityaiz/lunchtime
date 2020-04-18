@@ -1,11 +1,13 @@
 <template>
   <v-content>
     <v-layout fluid class="justify-center">
-      <reviews-card
-        :key="index"
-        v-for="(r, index) in reviews"
-        :review='r'
-      />
+      <v-card>
+        <reviews-card
+          :key="index"
+          v-for="(r, index) in reviews"
+          :review="r"
+        />
+      </v-card>
     </v-layout>
   </v-content>
 </template>

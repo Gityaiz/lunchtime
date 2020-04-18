@@ -13,13 +13,12 @@
       color="primary"
       fixed
       grow
-      height='5vh'
+      height="5vh"
     >
       <v-btn v-for="menu in menus" :key="menu.title" :to="menu.to">
         <span>{{ menu.title }}</span>
         <v-icon>{{ menu.icon }}</v-icon>
       </v-btn>
-
     </v-bottom-navigation>
   </v-app>
 </template>

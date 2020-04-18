@@ -13,7 +13,7 @@
       :opened="infoWinOpen"
       @closeclick="infoWinOpen=false"
     >
-      <p style='color: black'>
+      <p style="color: black">
         {{ infoText }}
       </p>
     </GmapInfoWindow>
@@ -71,9 +71,6 @@ export default {
   computed: {
     google: gmapApi,
     fullScreen: () => ('width: 100vw; height: 100vh')
-  },
-  mounted () {
-    console.log('merkers', this.markers)
   },
   methods: {
     clickedOnMarker (marker) {

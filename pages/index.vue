@@ -30,9 +30,6 @@ export default {
     MapView,
     PostForm
   },
-  computed: {
-    fullScreen: () => ('width: 100vw; height: 95vh')
-  },
   data () {
     return {
       map: {
@@ -46,13 +43,15 @@ export default {
       postFormVisible: false
     }
   },
+  computed: {
+    fullScreen: () => ('width: 100vw; height: 95vh')
+  },
   // asyncDataはpagesコンポーネントでのみ使用できる
   async asyncData (context) {
     // firebaseのデータfetch
     const querySnapshot = await firebase.firestore().collection('storeInfos').get()
     const records = querySnapshot.docs.map(elem => elem.data())
     if (records.length > 0) {
-      console.log('rec >', records)
       return { markers: records }
     }
   },
