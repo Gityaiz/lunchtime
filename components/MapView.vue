@@ -13,7 +13,9 @@
       :opened="infoWinOpen"
       @closeclick="infoWinOpen=false"
     >
-      {{ infoText }}
+      <p style='color: black'>
+        {{ infoText }}
+      </p>
     </GmapInfoWindow>
     <GmapMarker
       :key="index"
