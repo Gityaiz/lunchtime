@@ -1,7 +1,7 @@
 <template>
   <v-app dark>
     <router-view />
-    <v-snackbar v-model="snackbarVisible" top >
+    <v-snackbar v-model="snackbarVisible" top>
       {{ message }}
     </v-snackbar>
     <v-bottom-navigation

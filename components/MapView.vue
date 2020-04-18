@@ -52,6 +52,10 @@ export default {
         zoom: 15,
         style: 'width: 100vw; height: 100vh'
       })
+    },
+    class: {
+      type: String,
+      default: () => ('width: 100vw; height: 100vh')
     }
   },
   data () {
@@ -86,8 +90,8 @@ export default {
     },
     clickedOnMap (event) {
       // フルスクリーン状態でない場合でクリックされたときはフルスクリーンに変更するのみ
-      if (this.map.style !== this.fullScreen) {
-        this.map.style = this.fullScreen
+      if (this.class !== this.fullScreen) {
+        this.class = this.fullScreen
         return
       }
       this.activeMarker = { position: { lat: event.latLng.lat(), lng: event.latLng.lng() } }

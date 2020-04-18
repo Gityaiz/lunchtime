@@ -1,6 +1,7 @@
 <template>
   <v-card>
     <map-view
+      :class="mapViewClass"
       :map="map"
       :markers="markers"
       @clickedOnMap="clickedOnMap"
@@ -29,16 +30,18 @@ export default {
       map: {
         center: { lat: 35.696096, lng: 139.776776 },
         zoom: 15,
-        style: 'width: 100vw; height: 95vh'
+        style: 'width: 100vw; height: 90vh'
       },
       markers: [],
       fullScreenMap: false,
       reviewVisible: true,
-      postFormVisible: false
+      postFormVisible: false,
+      mapViewClass: {}
     }
   },
   computed: {
-    fullScreen: () => ('width: 100vw; height: 95vh')
+    fullScreen: () => ('width: 100vw; height: 90vh'),
+    separateScreen: () => ('width: 100vw; height: 30vh')
   },
   // asyncDataはpagesコンポーネントでのみ使用できる
   async asyncData (context) {
@@ -62,33 +65,33 @@ export default {
   },
   methods: {
     clickedOnMap (center) {
-      this.map.style = 'width: 100vw; height: 30vh'
+      this.mapViewClass = this.fullScreen
       this.map.center = center
       this.fullScreenMap = false
       this.reviewVisible = false
       this.postFormVisible = true
     },
     clickedMarker (store) {
-      this.map.style = 'width: 100vw; height: 30vh'
+      this.mapViewClass = this.separateScreen
       this.map.center = store.position
       this.fullScreenMap = false
       this.reviewVisible = true
       this.postFormVisible = false
     },
     setFullscreenMap () {
-      this.map.style = this.fullScreen
+      this.mapViewClass = this.fullScreen
       this.fullScreenMap = true
       this.reviewVisible = false
       this.postFormVisible = false
     },
     postSuccess () {
-      this.map.style = this.fullScreen
+      this.mapViewClass = this.fullScreen
       this.fullScreenMap = false
       this.reviewVisible = true
       this.postFormVisible = false
     },
     postFailed () {
-      this.map.style = this.fullScreen
+      this.mapViewClass = this.fullScreen
       this.fullScreenMap = false
       this.reviewVisible = true
       this.postFormVisible = false
@@ -96,7 +99,3 @@ export default {
   }
 }
 </script>
-
-<style>
-
-</style>
