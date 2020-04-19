@@ -7,13 +7,14 @@
 </template>
 <script>
 import SigninForm from '../../components/SigninForm.vue'
+import { goProfileIfAuthenticated } from '../../middleware/navigationGuard'
 import firebase from '../../plugins/firebase'
 import { mapGetters, mapActions } from 'vuex'
 export default {
+  middleware: goProfileIfAuthenticated,
   components: {
     SigninForm
   },
-  middleware: 'must-not-be-authenticated',
   computed: {
     ...mapGetters('auth', [
       'fireid'

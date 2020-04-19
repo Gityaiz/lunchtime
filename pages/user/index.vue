@@ -44,9 +44,10 @@
 
 <script>
 import firebase from '../../plugins/firebase.js'
+import { goSigninPageIfNotAuthenticated } from '../../middleware/navigationGuard'
 import { mapGetters, mapActions } from 'vuex'
 export default {
-  middleware: 'must-be-authenticated',
+  middleware: goSigninPageIfNotAuthenticated,
   data () {
     return {
       user_infos: '',

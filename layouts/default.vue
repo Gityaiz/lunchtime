@@ -9,7 +9,6 @@
       color="primary"
       fixed
       bottom
-      grow
     >
       <v-btn v-for="menu in menus" :key="menu.title" :to="menu.to">
         <span>{{ menu.title }}</span>
