@@ -5,12 +5,8 @@
     <v-snackbar v-model="snackbarVisible" top>
       {{ message }}
     </v-snackbar>
-    <v-bottom-navigation
-      color="primary"
-      fixed
-      bottom
-    >
-      <v-btn v-for="menu in menus" :key="menu.title" :to="menu.to">
+    <v-bottom-navigation color="primary" fixed v-model="bottomNav">
+      <v-btn v-for="menu in menus" :key="menu.title" :to="menu.to" :value="menu.title">
         <span>{{ menu.title }}</span>
         <v-icon>{{ menu.icon }}</v-icon>
       </v-btn>
@@ -25,8 +21,7 @@ export default {
   data () {
     return {
       isSnackbar: false,
-      activeBtn: 0, // bottom-nav active {0, 1, 2},
-      bottomNav: 0,
+      bottomNav: 'map',
       menus: [
         { title: 'map', icon: 'mdi-map-marker', to: '/' },
         { title: 'reviews', icon: 'mdi-heart', to: '/evals' },

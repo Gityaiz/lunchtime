@@ -1,47 +1,31 @@
 <template>
-  <v-container fluid>
-    <v-flex>
-      <v-card dark>
-        <v-row align="center">
-          <v-col cols="3">
-            <v-card flat>
-              <v-card-text>
-                <v-avatar size="100px" color="grey lighten-4">
-                  <img :src="user_infos.profileImage" alt="avatar">
-                </v-avatar>
-              </v-card-text>
-            </v-card>
-          </v-col>
-          <v-col md="4" xs="4">
-            <v-row>
-              <v-card dark flat>
-                <v-card-text>
-                  <v-text-field
-                    v-model="update.name"
-                    :label="user_infos.name"
-                  />
-                </v-card-text>
-              </v-card>
-              <v-flex tile align-center>
-                <v-card tile flat class="d-flex">
-                  <input @change="selectFile" type="file">
-                </v-card>
-              </v-flex>
-            </v-row>
-          </v-col>
+  <v-container fill-height>
+    <v-layout class="d-flex flex-column">
+      <v-card dark class="text-center pa-2">
+        <v-row>
+          <v-card-text>
+            <v-avatar size="100px" color="grey lighten-4">
+              <img :src="user_infos.profileImage" alt="avatar">
+            </v-avatar>
+          </v-card-text>
         </v-row>
         <v-row>
-          <v-alert type="success" v-if="profileImage.name" dense text>
-            {{ profileImage.name }}
-          </v-alert>
+          <v-card-text>
+            <v-text-field
+              v-model="update.name"
+              label="ユーザー名"
+              :clearable="true"
+            />
+          </v-card-text>
+          <v-card-text>
+            <input @change="selectFile" type="file">
+          </v-card-text>
         </v-row>
-      </v-card>
-      <v-card flat>
-        <v-btn @click="updateStatus(), updateProfileImage()" block>
+        <v-btn @click="updateStatus(), updateProfileImage()">
           ユーザ情報を更新する
         </v-btn>
       </v-card>
-    </v-flex>
+    </v-layout>
   </v-container>
 </template>
 
@@ -59,9 +43,7 @@ export default {
       user_infos: { name: '名無し', profileImage: '' },
       isVisible: false,
       uid: '',
-      update: {
-        name: ''
-      },
+      update: { name: '名無し' },
       profileImage: {}
     }
   },
@@ -75,6 +57,9 @@ export default {
         }
       })
     return { user_infos: user }
+  },
+  mounted () {
+    this.update.name = this.user_infos.name
   },
   methods: {
     ...mapActions('snackbar', ['setMessage']),
