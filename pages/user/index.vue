@@ -91,7 +91,6 @@ export default {
       const storepath = 'userProfile' + '/' + this.fireid + '/' + this.profileImage.name
       return firebase.storage().ref().child(storepath).put(this.profileImage)
         .then((snapshot) => {
-          // 成功時の処理
           let imageUrl
           firebase.storage().ref().child(storepath).getDownloadURL().then((url) => {
             imageUrl = url
