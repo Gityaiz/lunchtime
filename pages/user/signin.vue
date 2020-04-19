@@ -16,9 +16,7 @@ export default {
     SigninForm
   },
   computed: {
-    ...mapGetters('auth', [
-      'fireid'
-    ])
+    ...mapGetters('auth', ['fireid'])
   },
   methods: {
     ...mapActions('auth', ['setName']),

@@ -1,45 +1,48 @@
 <template>
-  <div>
-    <v-btn
-      @click="getStatus"
-    >
-      ユーザ情報の表示
-    </v-btn>
-    <v-divider />
-    <v-layout
-      v-if="isVisible"
-      row
-      wrap
-    >
-      <v-flex>
+  <v-container fluid>
+    <v-flex>
+      <v-card dark>
+        <v-row align="center">
+          <v-col cols="3">
+            <v-card flat>
+              <v-card-text>
+                <v-avatar size="100px" color="grey lighten-4">
+                  <img :src="user_infos.profileImage" alt="avatar">
+                </v-avatar>
+              </v-card-text>
+            </v-card>
+          </v-col>
+          <v-col md="4" xs="4">
+            <v-row>
+              <v-card dark flat>
+                <v-card-text>
+                  <v-text-field
+                    v-model="update.name"
+                    :label="user_infos.name"
+                  />
+                </v-card-text>
+              </v-card>
+              <v-flex tile align-center>
+                <v-card tile flat class="d-flex">
+                  <input @change="selectFile" type="file">
+                </v-card>
+              </v-flex>
+            </v-row>
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-alert type="success" v-if="profileImage.name" dense text>
+            {{ profileImage.name }}
+          </v-alert>
+        </v-row>
+      </v-card>
+      <v-card flat>
         <v-btn @click="updateStatus(), updateProfileImage()" block>
           ユーザ情報を更新する
         </v-btn>
-        <v-layout column align-center>
-          <v-avatar :tile="false" size="300px" color="grey lighten-4">
-            <img :src="user_infos.profileImage" alt="avatar">
-          </v-avatar>
-          <label class="profile_graph">
-            画像アップロード
-            <input @change="selectFile" type="file">
-          </label>
-        </v-layout>
-        <v-card dark>
-          <v-card-text>
-            <div display="flex">
-              <v-subheader class="pa-0">
-                ユーザー名
-              </v-subheader>
-              <v-text-field
-                v-model="update.name"
-                :label="user_infos.name"
-              />
-            </div>
-          </v-card-text>
-        </v-card>
-      </v-flex>
-    </v-layout>
-  </div>
+      </v-card>
+    </v-flex>
+  </v-container>
 </template>
 
 <script>
@@ -48,47 +51,36 @@ import { goSigninPageIfNotAuthenticated } from '../../middleware/navigationGuard
 import { mapGetters, mapActions } from 'vuex'
 export default {
   middleware: goSigninPageIfNotAuthenticated,
+  computed: {
+    ...mapGetters('auth', ['fireid'])
+  },
   data () {
     return {
-      user_infos: '',
+      user_infos: { name: '名無し', profileImage: '' },
       isVisible: false,
-      isfirst: 'true',
       uid: '',
       update: {
         name: ''
       },
-      profileImage: ''
+      profileImage: {}
     }
   },
-  computed: {
-    ...mapGetters('auth', [
-      'fireid'
-    ])
+  async asyncData (context) {
+    let user = {}
+    await firebase.firestore().collection('users').doc(context.store.getters['auth/fireid'])
+      .get()
+      .then((doc) => {
+        if (doc.exists) {
+          user = doc.data()
+        }
+      })
+    return { user_infos: user }
   },
   methods: {
     ...mapActions('snackbar', ['setMessage']),
     ...mapActions('snackbar', ['snackOn']),
     ...mapActions('auth', ['setName']),
     ...mapActions('auth', ['setProfileImage']),
-    getStatus () {
-      if (this.isfirst) {
-        return firebase.firestore().collection('users').doc(this.fireid)
-          .get()
-          .then((doc) => {
-            if (doc.exists) {
-              this.user_infos = doc.data()
-              this.isVisible = !this.isVisible
-              this.isfirst = false
-            } else {
-              // doc.data() will be undefined in this case
-              this.setMessage('エラーが発生しました')
-              this.snackOn()
-            }
-          })
-      } else {
-        this.isVisible = !this.isVisible
-      }
-    },
     updateStatus () {
       if (this.user_infos.name === this.update.name || this.update.name === '') {
         return
@@ -135,27 +127,3 @@ export default {
   }
 }
 </script>
-<style lang="scss">
-.profile_graph {
-  input {
-    display: none;
-  }
-}
-.profile_graph {
-  display: flex;
-  width: 200px;
-  height: 20px;
-  padding: 20px;
-  justify-content: center;
-  align-items: center;
-  border: solid 1px #888;
-  cursor: pointer;
-  cursor: hand;
-}
-.profile_graph::after {
-  content: '+';
-  font-size: 1rem;
-  color: #888;
-  padding-left: 1rem;
-}
-</style>
