@@ -1,7 +1,7 @@
 <template>
   <v-card>
     <map-view
-      :class="mapViewClass"
+      :mapStyle="mapViewClass"
       :map="map"
       :markers="markers"
       @clickedOnMap="clickedOnMap"
@@ -29,14 +29,13 @@ export default {
     return {
       map: {
         center: { lat: 35.696096, lng: 139.776776 },
-        zoom: 15,
-        style: 'width: 100vw; height: 90vh'
+        zoom: 15
       },
       markers: [],
       fullScreenMap: false,
       reviewVisible: true,
       postFormVisible: false,
-      mapViewClass: {}
+      mapViewClass: 'width: 100vw; height: 90vh'
     }
   },
   computed: {
@@ -65,7 +64,7 @@ export default {
   },
   methods: {
     clickedOnMap (center) {
-      this.mapViewClass = this.fullScreen
+      this.mapViewClass = this.separateScreen
       this.map.center = center
       this.fullScreenMap = false
       this.reviewVisible = false

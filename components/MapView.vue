@@ -3,7 +3,7 @@
     :center="{lat: map.center.lat, lng: map.center.lng}"
     :zoom="map.zoom"
     @click="clickedOnMap($event)"
-    :style="map.style"
+    :style="mapStyle"
     :draggable="true"
     map-type-id="terrain"
   >
@@ -49,11 +49,10 @@ export default {
       type: Object,
       default: () => ({
         center: { lat: 35.658584, lng: 139.7454316 },
-        zoom: 15,
-        style: 'width: 100vw; height: 100vh'
+        zoom: 15
       })
     },
-    class: {
+    mapStyle: {
       type: String,
       default: () => ('width: 100vw; height: 100vh')
     }

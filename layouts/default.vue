@@ -1,17 +1,15 @@
 <template>
   <v-app dark>
+    <!-- サイト内コンテンツが900px以上にならず、それよりも大きい場合は中央寄せとなる-->
     <router-view />
     <v-snackbar v-model="snackbarVisible" top>
       {{ message }}
     </v-snackbar>
     <v-bottom-navigation
-      :value="activeBtn"
-      :v-model="bottomNav"
       color="primary"
       fixed
       bottom
       grow
-      height="10vh"
     >
       <v-btn v-for="menu in menus" :key="menu.title" :to="menu.to">
         <span>{{ menu.title }}</span>

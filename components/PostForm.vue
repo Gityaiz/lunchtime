@@ -1,8 +1,5 @@
 <template>
-  <v-row
-    justify="center"
-    class="ma-2 pa-2"
-  >
+  <v-row justify-center>
     <p class="font-weight-white">
       お店の情報を入力してください
     </p>
@@ -11,7 +8,7 @@
       color="black"
       min-width="80vw"
       max-width="90vw"
-      max-weight="70vw"
+      max-height="60vh"
     >
       <v-textarea
         v-model="store.name"
