@@ -1,49 +1,62 @@
 <template>
-  <v-row justify-center>
-    <p class="font-weight-white">
-      お店の情報を入力してください
-    </p>
-    <v-card
-      class="ma-2 pa-2"
-      color="black"
-      min-width="80vw"
-      max-width="90vw"
-      max-height="60vh"
-    >
-      <v-textarea
-        v-model="store.name"
-        :counter="nameMaxLength"
-        :rules="nameRules"
-        background-color="black"
-        color="cyan"
-        label="店名"
-        outlined
-        rows="1"
-      />
-      <v-textarea
-        v-model="store.memo"
-        :counter="memoMaxLength"
-        :rules="memoRules"
-        background-color="black"
-        color="cyan"
-        label="お店に関するメモ"
-        outlined
-        rows="6"
-      />
-      <uploadfile-form
-        @success="imageUploadSuccess"
-        @failed="imageUploadFailed"
-      />
-      <v-btn
-        @click="resisterInfo"
-        outlined
-        color="cyan"
-        block
-      >
-        登録
-      </v-btn>
-    </v-card>
-  </v-row>
+  <v-container fill-height >
+    <v-layout justify="center">
+      <v-row>
+        <v-flex>
+          <v-card
+            class="mx-auto"
+            min-width="100px"
+            max-width="90vw"
+          >
+            <p class="font-weight-white">
+              お店の情報を入力してください
+            </p>
+            <p class="font-weight-white">
+              お店の評価を入力
+            </p>
+            <v-rating
+              v-model="store.rank"
+              class="mb-2"
+              color="amber"
+              dense
+            />
+            <v-textarea
+              v-model="store.name"
+              :counter="nameMaxLength"
+              :rules="nameRules"
+              background-color="black"
+              color="cyan"
+              label="店名"
+              outlined
+              rows="1"
+            />
+            <v-textarea
+              v-model="store.memo"
+              :counter="memoMaxLength"
+              :rules="memoRules"
+              background-color="black"
+              color="cyan"
+              label="お店に関するメモ"
+              outlined
+              rows="3"
+            />
+            <uploadfile-form
+              @success="imageUploadSuccess"
+              @failed="imageUploadFailed"
+            />
+            <v-btn
+              @click="resisterInfo"
+              outlined
+              color="cyan"
+              block
+            >
+              登録
+            </v-btn>
+          </v-card>
+        </v-flex>
+      </v-row>
+    </v-layout>
+  </v-container>
 </template>
 <script>
 import firebase from '../plugins/firebase.js'
@@ -66,7 +79,8 @@ export default {
     return {
       store: {
         name: '',
-        memo: ''
+        memo: '',
+        rank: 0
       },
       nameMaxLength: 30,
       memoMaxLength: 300,
@@ -111,7 +125,7 @@ export default {
             // 該当する位置情報のお店が存在しないので新たにドキュメントを追加する
             firebase.firestore().collection('storeInfos').doc().set({
               eval: [
-                { uid: this.fireid, name: this.name, memo: this.store.memo, imagePath: this.imageFilePath }
+                { uid: this.fireid, name: this.name, memo: this.store.memo, imagePath: this.imageFilePath, rank: this.store.rank }
               ],
               name: this.store.name,
               position: this.position
@@ -140,11 +154,11 @@ export default {
     },
     imageUploadSuccess (filepath) {
       this.imageFilePath = filepath
-      this.setMessage('画像アップロードに成功しました')
+      this.setMessage('写真を添付しました')
       this.snackOn()
     },
     imageUploadFailed () {
-      this.setMessage('画像アップロードに失敗しました')
+      this.setMessage('写真の添付に失敗しました')
       this.snackOn()
     }
   }

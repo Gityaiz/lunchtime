@@ -88,7 +88,7 @@ export default {
       if (this.profileImage === '') {
         return
       }
-      const storepath = 'userProfile' + '/' + this.fireid + '/' + this.profileImage.name
+      const storepath = 'userProfile' + '/' + this.fireid + '/profileImage'
       return firebase.storage().ref().child(storepath).put(this.profileImage)
         .then((snapshot) => {
           let imageUrl

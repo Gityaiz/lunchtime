@@ -1,9 +1,9 @@
 <template>
   <v-layout>
     <v-card
-      class="mb-2"
       width="100vw"
       max-width="400px"
+      @click="cardClicked"
     >
       <v-img
         :src="review.eval[0].imagePath"
@@ -19,32 +19,41 @@
               {{ review.eval[0].memo }}
             </div>
           </v-row>
-          <v-row justify="end">
-            <p justify="end">
-              {{ review.eval[0].name }}
-            </p>
+          <v-row>
+            <v-rating
+              :value="review.eval[0].rank"
+              color="amber"
+              dense
+              readonly
+            />
           </v-row>
         </v-col>
       </v-card-text>
 
       <v-card-actions>
+        <v-list-item-avatar color="grey darken-3">
+          <v-img
+            class="elevation-6"
+            :src="reviewerProfileImageCdnPath"
+          ></v-img>
+        </v-list-item-avatar>
+        <p v-if="review.eval.length > 1">
+          他{{ review.eval.length -1}}件の評価
+        </p>
         <v-spacer />
         <v-btn icon>
           <v-icon>mdi-heart</v-icon>
         </v-btn>
-
         <v-btn icon>
           <v-icon>mdi-bookmark</v-icon>
-        </v-btn>
-
-        <v-btn icon>
-          <v-icon>mdi-share-variant</v-icon>
         </v-btn>
       </v-card-actions>
     </v-card>
   </v-layout>
 </template>
 <script>
+import firebase from '../plugins/firebase.js'
+
 export default {
   props: {
     review: {
@@ -55,12 +64,30 @@ export default {
             imagePath: 'https://cdn.vuetifyjs.com/images/cards/docks.jpg',
             memo: 'default memo',
             name: 'default writer',
-            uid: 'default uid'
+            uid: 'default uid',
+            rank: 0
           }
         ],
         name: 'store name',
         position: { lat: 35.645975156820924, lng: 139.59070195708614 }
       })
+    }
+  },
+  data () {
+    return {
+      reviewerProfileImageCdnPath: ''
+    }
+  },
+  async mounted () {
+    // this.reviewerProfileImageCdnPath = await firebase.storage().ref('userProfile/biBBT9sNRyauEHNWMRUFwdyAwAC3/profileImage')
+    const userImageRef = await firebase.storage().ref().child('userProfile/' + this.review.eval[0].uid + '/profileImage')
+    userImageRef.getDownloadURL().then((url) => {
+      this.reviewerProfileImageCdnPath = url
+    })
+  },
+  methods: {
+    cardClicked () {
+      console.log('cardClicked!!')
     }
   }
 }
