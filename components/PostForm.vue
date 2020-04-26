@@ -142,12 +142,14 @@ export default {
               })
           } else {
             // ドキュメントのevalにお店の評価を追加する
-            collectionRef.set({
-              eval: [
-                { uid: this.fireid, name: this.name, memo: this.store.memo }
-              ],
-              name: this.store.name
-            }, { merge: true })
+            querySnapshot.forEach((doc) => {
+              console.log(doc.id, '=>', doc.data())
+              doc.ref.update({
+                eval: firebase.firestore.FieldValue.arrayUnion({
+                  uid: this.fireid, name: this.name, memo: this.store.memo
+                })
+              })
+            })
           }
         })
       this.$router.go({ path: this.$router.currentRoute.path, force: true })

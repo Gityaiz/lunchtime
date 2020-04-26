@@ -75,7 +75,7 @@ export default {
       this.map.center = store.position
       this.fullScreenMap = false
       this.reviewVisible = true
-      this.postFormVisible = false
+      this.postFormVisible = true
     },
     setFullscreenMap () {
       this.mapViewClass = this.fullScreen
