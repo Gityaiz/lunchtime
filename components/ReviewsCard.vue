@@ -1,7 +1,7 @@
 <template>
   <v-card
-    max-width="400px"
     @click="cardClicked"
+    max-width="400px"
   >
     <v-img
       :src="review.eval[0].imagePath"
@@ -31,12 +31,12 @@
     <v-card-actions>
       <v-list-item-avatar color="grey darken-3">
         <v-img
-          class="elevation-6"
           :src="reviewerProfileImageCdnPath"
-        ></v-img>
+          class="elevation-6"
+        />
       </v-list-item-avatar>
       <p v-if="review.eval.length > 1">
-        他{{ review.eval.length -1}}件の評価
+        他{{ review.eval.length -1 }}件の評価
       </p>
       <v-spacer />
       <v-btn icon>
@@ -83,7 +83,7 @@ export default {
   },
   methods: {
     cardClicked () {
-      console.log('cardClicked!!')
+      // console.log('cardClicked!!')
     }
   }
 }

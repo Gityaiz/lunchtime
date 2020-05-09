@@ -1,6 +1,6 @@
 <template>
   <v-row>
-    <v-col class='mt-2'>
+    <v-col class="mt-2">
       <label class="image_label">
         写真
         <input @change="selectFile" type="file">

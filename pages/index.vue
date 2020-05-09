@@ -25,10 +25,6 @@ export default {
     MapView,
     PostForm
   },
-  computed: {
-    fullScreen: () => ('width: 100%; height: 100%'),
-    separateScreen: () => ('width: 100%; height: 30%')
-  },
   data () {
     return {
       map: {
@@ -41,6 +37,10 @@ export default {
       postFormVisible: false,
       mapViewClass: 'width: 100vw; height: 100%'
     }
+  },
+  computed: {
+    fullScreen: () => ('width: 100%; height: 100%'),
+    separateScreen: () => ('width: 100%; height: 30%')
   },
   // asyncDataはpagesコンポーネントでのみ使用できる
   async asyncData (context) {

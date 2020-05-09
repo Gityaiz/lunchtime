@@ -1,5 +1,5 @@
 <template>
-  <v-container fill-height >
+  <v-container fill-height>
     <v-layout justify="center">
       <v-row>
         <v-flex>
@@ -143,7 +143,6 @@ export default {
           } else {
             // ドキュメントのevalにお店の評価を追加する
             querySnapshot.forEach((doc) => {
-              console.log(doc.id, '=>', doc.data())
               doc.ref.update({
                 eval: firebase.firestore.FieldValue.arrayUnion({
                   uid: this.fireid, name: this.name, memo: this.store.memo

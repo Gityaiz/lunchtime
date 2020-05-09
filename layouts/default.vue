@@ -6,8 +6,8 @@
         {{ message }}
       </v-snackbar>
       <v-bottom-navigation
-        color="primary"
         v-model="bottomNav"
+        color="primary"
         fixed
         grow
       >
@@ -22,11 +22,9 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-// import firebase from '~/plugins/firebase.js'
 export default {
   data () {
     return {
-      isSnackbar: false,
       bottomNav: 'map',
       menus: [
         { title: 'map', icon: 'mdi-map-marker', to: '/' },
@@ -43,7 +41,6 @@ export default {
       'message',
       'status'
     ]),
-    // snackbarが自動でfalseに設定するためセッタを用意して、明示的にdispatchからOffするようにする
     snackbarVisible: {
       get () {
         return this.status

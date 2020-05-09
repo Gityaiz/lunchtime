@@ -13,8 +13,8 @@
           <v-card-text>
             <v-text-field
               v-model="update.name"
-              label="ユーザー名"
               :clearable="true"
+              label="ユーザー名"
             />
           </v-card-text>
           <v-card-text>
@@ -35,9 +35,6 @@ import { goSigninPageIfNotAuthenticated } from '../../middleware/navigationGuard
 import { mapGetters, mapActions } from 'vuex'
 export default {
   middleware: goSigninPageIfNotAuthenticated,
-  computed: {
-    ...mapGetters('auth', ['fireid'])
-  },
   data () {
     return {
       user_infos: { name: '名無し', profileImage: '' },
@@ -46,6 +43,9 @@ export default {
       update: { name: '名無し' },
       profileImage: {}
     }
+  },
+  computed: {
+    ...mapGetters('auth', ['fireid'])
   },
   async asyncData (context) {
     let user = {}
