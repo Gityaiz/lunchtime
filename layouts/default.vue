@@ -1,16 +1,17 @@
 <template>
   <v-app dark>
-    <!-- サイト内コンテンツが900px以上にならず、それよりも大きい場合は中央寄せとなる-->
-    <router-view />
-    <v-snackbar v-model="snackbarVisible" top>
-      {{ message }}
-    </v-snackbar>
-    <v-bottom-navigation color="primary" fixed v-model="bottomNav">
-      <v-btn v-for="menu in menus" :key="menu.title" :to="menu.to" :value="menu.title">
-        <span>{{ menu.title }}</span>
-        <v-icon>{{ menu.icon }}</v-icon>
-      </v-btn>
-    </v-bottom-navigation>
+    <v-card height="100%">
+      <router-view />
+      <v-snackbar v-model="snackbarVisible" top>
+        {{ message }}
+      </v-snackbar>
+      <v-bottom-navigation color="primary" v-model="bottomNav" absolute>
+        <v-btn v-for="menu in menus" :key="menu.title" :to="menu.to" :value="menu.title">
+          <span>{{ menu.title }}</span>
+          <v-icon>{{ menu.icon }}</v-icon>
+        </v-btn>
+      </v-bottom-navigation>
+    </v-card>
   </v-app>
 </template>
 
