@@ -9,6 +9,7 @@
         color="primary"
         v-model="bottomNav"
         fixed
+        grow
       >
         <v-btn v-for="menu in menus" :key="menu.title" :to="menu.to" :value="menu.title">
           <span>{{ menu.title }}</span>
@@ -60,15 +61,3 @@ export default {
   }
 }
 </script>
-
-<style>
-.toolbar-font {
-  color: white;
-  font-size: 150%;
-  text-decoration: none;
-  text-transform: none;
-}
-.userMenu-item {
-  cursor: hand;
-}
-</style>
