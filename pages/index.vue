@@ -1,5 +1,5 @@
 <template>
-  <v-card>
+  <v-card height="100%">
     <map-view
       :mapStyle="mapViewClass"
       :map="map"
@@ -26,8 +26,8 @@ export default {
     PostForm
   },
   computed: {
-    fullScreen: () => ('width: 100vw; height: 90vh'),
-    separateScreen: () => ('width: 100vw; height: 30vh')
+    fullScreen: () => ('width: 100%; height: 100%'),
+    separateScreen: () => ('width: 100%; height: 30%')
   },
   data () {
     return {
@@ -39,7 +39,7 @@ export default {
       fullScreenMap: false,
       reviewVisible: true,
       postFormVisible: false,
-      mapViewClass: 'width: 100vw; height: 90vh'
+      mapViewClass: 'width: 100vw; height: 100%'
     }
   },
   // asyncDataはpagesコンポーネントでのみ使用できる

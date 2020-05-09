@@ -1,55 +1,52 @@
 <template>
-  <v-layout>
-    <v-card
-      width="100vw"
-      max-width="400px"
-      @click="cardClicked"
+  <v-card
+    max-width="400px"
+    @click="cardClicked"
+  >
+    <v-img
+      :src="review.eval[0].imagePath"
+      class="white--text align-end"
+      height="200px"
     >
-      <v-img
-        :src="review.eval[0].imagePath"
-        class="white--text align-end"
-        height="20vh"
-      >
-        <v-card-title>{{ review.name }}</v-card-title>
-      </v-img>
-      <v-card-text>
-        <v-col>
-          <v-row>
-            <div class="text--primary">
-              {{ review.eval[0].memo }}
-            </div>
-          </v-row>
-          <v-row>
-            <v-rating
-              :value="review.eval[0].rank"
-              color="amber"
-              dense
-              readonly
-            />
-          </v-row>
-        </v-col>
-      </v-card-text>
+      <v-card-title>{{ review.name }}</v-card-title>
+    </v-img>
+    <v-card-text>
+      <v-col>
+        <v-row>
+          <div class="text--primary">
+            {{ review.eval[0].memo }}
+          </div>
+        </v-row>
+        <v-row>
+          <v-rating
+            :value="review.eval[0].rank"
+            color="amber"
+            dense
+            readonly
+          />
+        </v-row>
+      </v-col>
+    </v-card-text>
 
-      <v-card-actions>
-        <v-list-item-avatar color="grey darken-3">
-          <v-img
-            class="elevation-6"
-            :src="reviewerProfileImageCdnPath"
-          ></v-img>
-        </v-list-item-avatar>
-        <p v-if="review.eval.length > 1">
-          他{{ review.eval.length -1}}件の評価
-        </p>
-        <v-spacer />
-        <v-btn icon>
-          <v-icon>mdi-heart</v-icon>
-        </v-btn>
-        <v-btn icon>
-          <v-icon>mdi-bookmark</v-icon>
-        </v-btn>
-      </v-card-actions>
-    </v-card>
-  </v-layout>
+    <v-card-actions>
+      <v-list-item-avatar color="grey darken-3">
+        <v-img
+          class="elevation-6"
+          :src="reviewerProfileImageCdnPath"
+        ></v-img>
+      </v-list-item-avatar>
+      <p v-if="review.eval.length > 1">
+        他{{ review.eval.length -1}}件の評価
+      </p>
+      <v-spacer />
+      <v-btn icon>
+        <v-icon>mdi-heart</v-icon>
+      </v-btn>
+      <v-btn icon>
+        <v-icon>mdi-bookmark</v-icon>
+      </v-btn>
+    </v-card-actions>
+  </v-card>
 </template>
 <script>
 import firebase from '../plugins/firebase.js'
@@ -79,7 +76,6 @@ export default {
     }
   },
   async mounted () {
-    // this.reviewerProfileImageCdnPath = await firebase.storage().ref('userProfile/biBBT9sNRyauEHNWMRUFwdyAwAC3/profileImage')
     const userImageRef = await firebase.storage().ref().child('userProfile/' + this.review.eval[0].uid + '/profileImage')
     userImageRef.getDownloadURL().then((url) => {
       this.reviewerProfileImageCdnPath = url

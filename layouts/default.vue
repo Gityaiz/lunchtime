@@ -5,7 +5,11 @@
       <v-snackbar v-model="snackbarVisible" top>
         {{ message }}
       </v-snackbar>
-      <v-bottom-navigation color="primary" v-model="bottomNav" absolute>
+      <v-bottom-navigation
+        color="primary"
+        v-model="bottomNav"
+        fixed
+      >
         <v-btn v-for="menu in menus" :key="menu.title" :to="menu.to" :value="menu.title">
           <span>{{ menu.title }}</span>
           <v-icon>{{ menu.icon }}</v-icon>

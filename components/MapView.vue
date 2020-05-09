@@ -54,7 +54,7 @@ export default {
     },
     mapStyle: {
       type: String,
-      default: () => ('width: 100vw; height: 100vh')
+      default: () => ('width: 100%; height: 100%')
     }
   },
   data () {
@@ -73,7 +73,7 @@ export default {
   },
   computed: {
     google: gmapApi,
-    fullScreen: () => ('width: 100vw; height: 100vh')
+    fullScreen: () => ('width: 100%; height: 100%')
   },
   methods: {
     clickedOnMarker (marker) {
