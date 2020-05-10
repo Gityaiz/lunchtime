@@ -12,7 +12,6 @@
       :position="map.center"
       @success="postSuccess"
       @failed="postFailed"
-      @notSignedIn="notSignedIn"
     />
   </v-card>
 </template>
@@ -68,24 +67,33 @@ export default {
   methods: {
     ...mapActions('snackbar', ['snackOn']),
     ...mapActions('snackbar', ['setMessage']),
-    clickedOnMap (center) {
-      if (!this.signInCheck()) {
-        this.setMessage('レビューを投稿するにはログインする必要があります')
-        this.snackOn()
-        return
-      }
-      this.mapViewClass = this.separateScreen
-      this.map.center = center
-      this.fullScreenMap = false
-      this.reviewVisible = false
-      this.postFormVisible = true
+    async clickedOnMap (center) {
+      await firebase.auth().onAuthStateChanged((user) => {
+        if (user) {
+          this.mapViewClass = this.separateScreen
+          this.map.center = center
+          this.fullScreenMap = false
+          this.reviewVisible = false
+          this.postFormVisible = true
+        } else {
+          this.setMessage('レビューを投稿するにはログインする必要があります')
+          this.snackOn()
+        }
+      })
     },
-    clickedMarker (store) {
-      this.mapViewClass = this.separateScreen
-      this.map.center = store.position
-      this.fullScreenMap = false
-      this.reviewVisible = true
-      this.postFormVisible = true
+    async clickedMarker (store) {
+      await firebase.auth().onAuthStateChanged((user) => {
+        if (user) {
+          this.setMessage('レビューを投稿するにはログインする必要があります')
+          this.snackOn()
+        } else {
+          this.mapViewClass = this.separateScreen
+          this.map.center = store.position
+          this.fullScreenMap = false
+          this.reviewVisible = true
+          this.postFormVisible = true
+        }
+      })
     },
     setFullscreenMap () {
       this.mapViewClass = this.fullScreen
@@ -104,15 +112,6 @@ export default {
       this.fullScreenMap = false
       this.reviewVisible = true
       this.postFormVisible = false
-    },
-    signInCheck () {
-      firebase.auth().onAuthStateChanged((user) => {
-        if (user) {
-          return true
-        } else {
-          return false
-        }
-      })
     }
   }
 }
