@@ -12,6 +12,7 @@
       :position="map.center"
       @success="postSuccess"
       @failed="postFailed"
+      @notSignedIn="notSignedIn"
     />
   </v-card>
 </template>
@@ -20,6 +21,8 @@
 import MapView from '../components/MapView.vue'
 import PostForm from '../components/PostForm.vue'
 import firebase from '../plugins/firebase.js'
+import { mapActions } from 'vuex'
+
 export default {
   components: {
     MapView,
@@ -63,7 +66,14 @@ export default {
     }
   },
   methods: {
+    ...mapActions('snackbar', ['snackOn']),
+    ...mapActions('snackbar', ['setMessage']),
     clickedOnMap (center) {
+      if (!this.signInCheck()) {
+        this.setMessage('レビューを投稿するにはログインする必要があります')
+        this.snackOn()
+        return
+      }
       this.mapViewClass = this.separateScreen
       this.map.center = center
       this.fullScreenMap = false
@@ -94,6 +104,15 @@ export default {
       this.fullScreenMap = false
       this.reviewVisible = true
       this.postFormVisible = false
+    },
+    signInCheck () {
+      firebase.auth().onAuthStateChanged((user) => {
+        if (user) {
+          return true
+        } else {
+          return false
+        }
+      })
     }
   }
 }

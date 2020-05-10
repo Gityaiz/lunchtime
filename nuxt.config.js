@@ -52,11 +52,11 @@ export default {
     '@nuxtjs/axios',
     '@nuxtjs/pwa'
   ],
-
+  
   manifest: {
     name: 'LunchTime',
     lang: 'ja',
-    short_name: 'LunchTime', // ホーム画面に表示される名前
+    short_name: 'LunchTime',
     title: 'LunchTime',
     'og:title': 'ample title',
     description: 'description',
@@ -64,6 +64,7 @@ export default {
     theme_color: '#529b58',
     background_color: '#bde0c0'
   },
+
   /*
   ** Axios module configuration
   ** See https://axios.nuxtjs.org/options

@@ -113,6 +113,9 @@ export default {
       return rules
     }
   },
+  mounted () {
+    this.signInCheck()
+  },
   methods: {
     ...mapActions('snackbar', ['snackOn']),
     ...mapActions('snackbar', ['setMessage']),
@@ -161,6 +164,13 @@ export default {
     imageUploadFailed () {
       this.setMessage('写真の添付に失敗しました')
       this.snackOn()
+    },
+    signInCheck () {
+      firebase.auth().onAuthStateChanged((user) => {
+        if (!user) {
+          this.$emit('notSignedIn')
+        }
+      })
     }
   }
 }
