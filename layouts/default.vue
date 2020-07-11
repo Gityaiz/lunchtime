@@ -11,7 +11,7 @@
         fixed
         grow
       >
-        <v-btn v-for="menu in menus" :key="menu.title" :to="menu.to" :value="menu.title">
+        <v-btn v-for="menu in menus" :key="menu.title" :to="menu.to" :value="menu.title" height="100%">
           <span>{{ menu.title }}</span>
           <v-icon>{{ menu.icon }}</v-icon>
         </v-btn>
