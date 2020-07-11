@@ -60,19 +60,15 @@ export default {
     }
   },
   mounted () {
-    this.$nextTick(() => {
-      this.$nuxt.$loading.start()
-      if (!navigator.geolocation) {
-        // 現在位置を取得できない場合はデフォルトのmapオブジェクトをそのまま使用する
-      } else {
-        // 現在位置をマップの中央にセット
-        navigator.geolocation.getCurrentPosition((position) => {
-          this.map.center.lat = position.coords.latitude
-          this.map.center.lng = position.coords.longitude
-        })
-      }
-      setTimeout(() => this.$nuxt.$loading.finish(), 500)
-    })
+    if (!navigator.geolocation) {
+      // 現在位置を取得できない場合はデフォルトのmapオブジェクトをそのまま使用する
+    } else {
+      // 現在位置をマップの中央にセット
+      navigator.geolocation.getCurrentPosition((position) => {
+        this.map.center.lat = position.coords.latitude
+        this.map.center.lng = position.coords.longitude
+      })
+    }
   },
   methods: {
     ...mapActions('snackbar', ['snackOn']),
