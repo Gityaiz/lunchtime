@@ -1,6 +1,12 @@
 <template>
   <v-card height="100%">
+    <v-progress-circular
+      v-if="loading"
+      indeterminate
+      color="primary"
+    ></v-progress-circular>
     <map-view
+      v-if="!loading"
       :mapStyle="mapViewClass"
       :map="map"
       :markers="markers"
@@ -53,16 +59,20 @@ export default {
       return { markers: records }
     }
   },
-  async mounted () {
-    if (!navigator.geolocation) {
-      // 現在位置を取得できない場合はデフォルトのmapオブジェクトをそのまま使用する
-    } else {
-      // 現在位置をマップの中央にセット
-      await navigator.geolocation.getCurrentPosition((position) => {
-        this.map.center.lat = position.coords.latitude
-        this.map.center.lng = position.coords.longitude
-      })
-    }
+  mounted () {
+    this.$nextTick(() => {
+      this.$nuxt.$loading.start()
+      if (!navigator.geolocation) {
+        // 現在位置を取得できない場合はデフォルトのmapオブジェクトをそのまま使用する
+      } else {
+        // 現在位置をマップの中央にセット
+        navigator.geolocation.getCurrentPosition((position) => {
+          this.map.center.lat = position.coords.latitude
+          this.map.center.lng = position.coords.longitude
+        })
+      }
+      setTimeout(() => this.$nuxt.$loading.finish(), 500)
+    })
   },
   methods: {
     ...mapActions('snackbar', ['snackOn']),
