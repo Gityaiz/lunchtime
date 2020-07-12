@@ -1,12 +1,6 @@
 <template>
   <v-card height="100%">
-    <v-progress-circular
-      v-if="loading"
-      indeterminate
-      color="primary"
-    ></v-progress-circular>
     <map-view
-      v-if="!loading"
       :mapStyle="mapViewClass"
       :map="map"
       :markers="markers"

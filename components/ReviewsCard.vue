@@ -4,7 +4,7 @@
     max-width="400px"
   >
     <v-img
-      :src="review.eval[0].imagePath"
+      :src="!!review.eval ? review.eval[0].imagePath : ''"
       class="white--text align-end"
       height="200px"
     >
@@ -14,12 +14,12 @@
       <v-col>
         <v-row>
           <div class="text--primary">
-            {{ review.eval[0].memo }}
+            {{ !!review.eval ? review.eval[0].memo : '' }}
           </div>
         </v-row>
         <v-row>
           <v-rating
-            :value="review.eval[0].rank"
+            :value="!!review.eval ? review.eval[0].rank : 0"
             color="amber"
             dense
             readonly
@@ -35,7 +35,7 @@
           class="elevation-6"
         />
       </v-list-item-avatar>
-      <p v-if="review.eval.length > 1">
+      <p v-if="!!review.eval && review.eval.length > 1">
         他{{ review.eval.length -1 }}件の評価
       </p>
       <v-spacer />
@@ -76,10 +76,12 @@ export default {
     }
   },
   async mounted () {
-    const userImageRef = await firebase.storage().ref().child('userProfile/' + this.review.eval[0].uid + '/profileImage')
-    userImageRef.getDownloadURL().then((url) => {
-      this.reviewerProfileImageCdnPath = url
-    })
+    if (!!this.review.eval && this.review.eval.length > 0) {
+      const userImageRef = await firebase.storage().ref().child('userProfile/' + this.review.eval[0].uid + '/profileImage')
+      userImageRef.getDownloadURL().then((url) => {
+        this.reviewerProfileImageCdnPath = url
+      })
+    }
   },
   methods: {
     cardClicked () {
